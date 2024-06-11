@@ -38,7 +38,7 @@ public class KafkaProducerService {
     public void generateTestData(int numberOfMessages) {
         ExecutorService executor = Executors.newFixedThreadPool(10);
         String[] sensorTypes = {"temperature", "humidity", "pressure"};
-
+        System.out.println("numberOfMessages = " + numberOfMessages);
         for (int i = 0; i < numberOfMessages; i++) {
             executor.submit(() -> {
                 String sensorType = sensorTypes[(int) (Math.random() * sensorTypes.length)];
@@ -48,6 +48,7 @@ public class KafkaProducerService {
             });
         }
         executor.shutdown();
+        System.out.println("Success shutting down");
         try {
             executor.awaitTermination(10, TimeUnit.MINUTES);
         } catch (InterruptedException e) {

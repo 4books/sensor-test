@@ -10,13 +10,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class KafkaListenerService {
 
-    @Autowired
-    private SensorDataService sensorDataService;
+    private final SensorDataService sensorDataService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
+    public KafkaListenerService(SensorDataService sensorDataService) {
+        this.sensorDataService = sensorDataService;
+    }
+
     @KafkaListener(topics = "sensor-data", groupId = "sensor-group")
     public void listen(String message) {
+        processMessage(message);
+    }
+
+    public void processMessage(String message) {
         try {
             JsonNode jsonNode = objectMapper.readTree(message);
             String sensorType = jsonNode.get("type").asText();
@@ -26,6 +33,8 @@ public class KafkaListenerService {
             SensorData sensorData = new SensorData();
             sensorData.setTimestamp(timestamp);
             sensorData.setValue(value);
+
+            System.out.println("sensorData = " + sensorData);
 
             sensorDataService.saveSensorData(sensorType, sensorData);
         } catch (Exception e) {

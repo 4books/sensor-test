@@ -12,6 +12,7 @@ import java.time.Instant;
 @Service
 public class SensorDataService {
 
+
     private final InfluxDBClient influxDBClient;
 
     @Value("${influxdb.bucket}")
@@ -28,6 +29,8 @@ public class SensorDataService {
         Point point = Point.measurement(measurement)
                 .addField("value", sensorData.getValue())
                 .time(Instant.ofEpochMilli(sensorData.getTimestamp()), WritePrecision.MS);
+
+        System.out.println("point = " + point.toLineProtocol());
         influxDBClient.getWriteApiBlocking().writePoint(bucket, org, point);
     }
 }
