@@ -34,7 +34,7 @@ public class KafkaListenerService {
             sensorData.setTimestamp(timestamp);
             sensorData.setValue(value);
 
-            System.out.println("sensorData = " + sensorData);
+//            System.out.println("sensorData = " + sensorData);
 
             sensorDataService.saveSensorData(sensorType, sensorData);
         } catch (Exception e) {

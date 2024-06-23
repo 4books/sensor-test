@@ -21,6 +21,6 @@ public class SensorApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		producerService.generateTestData(10000);
+		producerService.generateTestData(1_000_000);
 	}
 }

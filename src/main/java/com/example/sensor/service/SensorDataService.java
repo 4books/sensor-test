@@ -30,7 +30,7 @@ public class SensorDataService {
                 .addField("value", sensorData.getValue())
                 .time(Instant.ofEpochMilli(sensorData.getTimestamp()), WritePrecision.MS);
 
-        System.out.println("point = " + point.toLineProtocol());
+//        System.out.println("point = " + point.toLineProtocol());
         influxDBClient.getWriteApiBlocking().writePoint(bucket, org, point);
     }
 }
